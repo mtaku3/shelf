@@ -54,8 +54,8 @@ impl Config {
 
     pub fn visit(&self, category: Option<&str>) -> Result<Vec<Book>> {
         let mut stmt = match category.is_some() {
-            true => self.conn.prepare("SELECT category, tag, path FROM book WHERE category = ?1")?,
-            false => self.conn.prepare("SELECT category, tag, path FROM book")?,
+            true => self.conn.prepare("SELECT category, tag, path FROM book WHERE category = ?1 ORDER BY category, tag")?,
+            false => self.conn.prepare("SELECT category, tag, path FROM book ORDER by category, tag")?,
         };
         let rows = match category.is_some() {
             true => stmt.query([category.unwrap()])?,
